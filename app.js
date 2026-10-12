@@ -1,4 +1,4 @@
-const STORAGE_KEY = 'comemorar_v1';
+const STORAGE_KEY = 'ComoMorar_v1';
 const $ = (sel) => document.querySelector(sel);
 const app = $('#app');
 const toastEl = $('#toast');
@@ -11,11 +11,11 @@ const categories = [
   { id: 'Residência / Co-Housing', icon: '<i class="fa-solid fa-building"></i>' }
 ];
 
-// Estado Inicial da Plataforma ComeMorar (Generalizado)
+// Estado Inicial da Plataforma ComoMorar (Generalizado)
 const demo = {
   users: [
     { id: 'u1', name: 'Matilde Silva', email: 'matilde@universidade.pt', role: 'student', location: 'Zona Universitária' },
-    { id: 'u2', name: 'Sr. António Ferreira', email: 'antonio@comemorar.pt', role: 'landlord', location: 'Zona Central' }
+    { id: 'u2', name: 'Sr. António Ferreira', email: 'antonio@ComoMorar.pt', role: 'landlord', location: 'Zona Central' }
   ],
   items: [
     {
@@ -33,7 +33,7 @@ const demo = {
       hasInsurance: true,
       allowSkillsExchange: true,
       skillsNote: 'Apoio pontual em tarefas digitais ou reparações básicas.',
-      status: 'Ativo (Selo ComeMorar)',
+      status: 'Ativo (Selo ComoMorar)',
       image: 'https://images.unsplash.com/photo-1522771739844-6a9f6d5f14af?w=800&auto=format&fit=crop&q=80'
     },
     {
@@ -50,7 +50,7 @@ const demo = {
       certifiedIRS: true,
       hasInsurance: true,
       allowSkillsExchange: false,
-      status: 'Ativo (Selo ComeMorar)',
+      status: 'Ativo (Selo ComoMorar)',
       image: 'https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=800&auto=format&fit=crop&q=80'
     }
   ],
@@ -80,13 +80,13 @@ const demo = {
       organizer: 'Associação Académica & Freguesia Local',
       date: 'Sábado, 15:00',
       location: 'Centro Comunitário Local',
-      description: 'Lanche comunitário para integrar os novos estudantes residentes e acolher os senhorios da rede ComeMorar.',
+      description: 'Lanche comunitário para integrar os novos estudantes residentes e acolher os senhorios da rede ComoMorar.',
       enrolled: 18
     }
   ],
   messages: [
     { id: 'm1', from: 'u1', to: 'u2', text: 'Olá Sr. António! Gostaria de saber se o quarto no Campus Universitário ainda está disponível.', date: 'Hoje 10:12' },
-    { id: 'm2', from: 'u2', to: 'u1', text: 'Com certeza, Matilde! Está verificado com o Selo ComeMorar e seguro ativado. Podemos conversar no evento da Associação Académica na quinta-feira?', date: 'Hoje 10:20' }
+    { id: 'm2', from: 'u2', to: 'u1', text: 'Com certeza, Matilde! Está verificado com o Selo ComoMorar e seguro ativado. Podemos conversar no evento da Associação Académica na quinta-feira?', date: 'Hoje 10:20' }
   ],
   currentUserId: 'u1',
   activeView: 'explore'
@@ -168,7 +168,7 @@ function render() {
     <div class="shell">
       <aside class="sidebar">
         <div class="brand">
-          <div><strong style="color:var(--primary); font-size:1.6rem;">ComeMorar</strong><div style="font-size:0.75rem; color:var(--muted);">Vem morar com confiança • Universidade</div></div>
+          <div><strong style="color:var(--primary); font-size:1.6rem;">ComoMorar</strong><div style="font-size:0.75rem; color:var(--muted);">Vem morar com confiança • Universidade</div></div>
         </div>
         <nav class="nav">${navHtml}</nav>
         <div class="sidebar-footer">
@@ -184,7 +184,7 @@ function render() {
       </aside>
       <main class="content">
         <div class="topbar">
-          <div class="mobile-brand"><strong>ComeMorar</strong></div>
+          <div class="mobile-brand"><strong>ComoMorar</strong></div>
           <h1>${pageTitle(state.activeView, u.role)}</h1>
         </div>
         <section class="view">${body}</section>
@@ -200,7 +200,7 @@ function pageTitle(view, role) {
   if (role === 'landlord') {
     const titles = {
       items: 'Gestão de Imóveis & Benefícios Fiscais',
-      add: 'Publicar Imóvel com Selo ComeMorar',
+      add: 'Publicar Imóvel com Selo ComoMorar',
       applications: 'Candidaturas de Estudantes Recebidas',
       events: 'Agenda de Convívios com Inquilinos',
       messages: 'Mensagens Diretas',
@@ -266,7 +266,7 @@ function viewExplore() {
         ${categories.map(c => `<button class="cat-btn" data-cat="${c.id}"><span>${c.icon}</span><span>${c.id}</span></button>`).join('')}
       </div>
     </div>
-    <div class="section-title"><h2>Alojamentos com Selo ComeMorar Ativo</h2></div>
+    <div class="section-title"><h2>Alojamentos com Selo ComoMorar Ativo</h2></div>
     <div class="item-list" id="itemsList"></div>
   `;
 }
@@ -287,7 +287,7 @@ function renderItemsList() {
         <p>📍 ${i.location} · ${i.distance} km do Campus</p>
         <p class="price">${money(i.price)}</p>
         <div class="status-line">
-          <span class="badge success"><i class="fa-solid fa-shield-halved"></i> Selo ComeMorar (IRS 0%)</span>
+          <span class="badge success"><i class="fa-solid fa-shield-halved"></i> Selo ComoMorar (IRS 0%)</span>
           ${i.allowSkillsExchange ? `<span class="badge warn"><i class="fa-solid fa-handshake"></i> Troca de Competências</span>` : ''}
         </div>
       </div>
@@ -381,7 +381,7 @@ function viewLandlordItems() {
     </div>
 
     <div class="section-title" style="margin-top:1rem;">
-      <h2>Os Meus Imóveis na Rede ComeMorar</h2>
+      <h2>Os Meus Imóveis na Rede ComoMorar</h2>
       <button class="btn primary" data-view="add">+ Publicar Novo Imóvel Certificado</button>
     </div>
 
@@ -427,13 +427,13 @@ function viewAddItem() {
   return `
     <button class="btn ghost" data-view="items">← Voltar aos Meus Imóveis</button>
     <div class="card" style="margin-top:1rem;">
-      <h2>Publicar Imóvel com Selo ComeMorar</h2>
+      <h2>Publicar Imóvel com Selo ComoMorar</h2>
       <form id="itemForm" class="login-form">
         <div><label>Título do Anúncio</label><input class="input" id="itemTitle" placeholder="Ex: Quarto perto do Campus" required></div>
         <div><label>Zona / Localização</label><input class="input" id="itemLoc" placeholder="Ex: Zona Universitária, Centro" required></div>
         <div><label>Renda Mensal Regulada (€)</label><input class="input" type="number" id="itemPrice" placeholder="260" required></div>
         <div class="summary-box">
-          <label><input type="checkbox" checked disabled> Ativar Selo ComeMorar (Isenção de IRS/IMI + Seguro contra Danos)</label>
+          <label><input type="checkbox" checked disabled> Ativar Selo ComoMorar (Isenção de IRS/IMI + Seguro contra Danos)</label>
           <label style="margin-top:0.5rem; display:block;"><input type="checkbox" id="itemSkills"> Aceitar Módulo de Apoio Mútuo / Troca de Competências (Desconto voluntário na renda)</label>
         </div>
         <button class="btn primary full" type="submit">Emitir Certificado e Publicar</button>
@@ -446,7 +446,7 @@ function viewLandlordProfile() {
   return `
     <div class="card">
       <h2>Perfil de Senhorio Certificado</h2>
-      <p>Titular: <strong>Sr. António Ferreira</strong> (antonio@comemorar.pt)</p>
+      <p>Titular: <strong>Sr. António Ferreira</strong> (antonio@ComoMorar.pt)</p>
       <div class="summary-box" style="margin-top:1rem;">
         <div class="summary-row"><span>Selo de Senhorio Par:</span><strong>Ativo e Validado</strong></div>
         <div class="summary-row"><span>Isenção Fiscal de IRS:</span><strong>0% Aplicado sobre Rendas Reguladas</strong></div>
@@ -522,7 +522,7 @@ function bindEvents() {
   if (itemForm) {
     itemForm.onsubmit = (e) => {
       e.preventDefault();
-      toast('Novo imóvel registado com Selo ComeMorar e Isenção Fiscal ativada!');
+      toast('Novo imóvel registado com Selo ComoMorar e Isenção Fiscal ativada!');
       setView('items');
     };
   }
