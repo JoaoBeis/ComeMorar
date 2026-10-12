@@ -42,15 +42,15 @@ const demo = {
       ownerName: 'Sr. António Ferreira',
       title: 'Apartamento T1 Aconchegante no Centro',
       category: 'T1 / T2 Completo',
-      description: 'Apartamento completo com teto de renda regulado. Contrato ativado com isenção fiscal e proteção do imóvel contra estragos.',
+      description: 'Apartamento completo com teto de renda regulado e proteção do imóvel contra estragos, sem isenção fiscal de IRS.',
       location: 'Zona Central',
       distance: 0.9,
       price: 380,
       verified: true,
-      certifiedIRS: true,
+      certifiedIRS: false,
       hasInsurance: true,
       allowSkillsExchange: false,
-      status: 'Ativo (Selo ComoMorar)',
+      status: 'Ativo (Sem Selo ComoMorar)',
       image: 'https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=800&auto=format&fit=crop&q=80'
     }
   ],
@@ -97,7 +97,18 @@ let state = load();
 function load() {
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
-    if (raw) return JSON.parse(raw);
+    if (raw) {
+      const saved = JSON.parse(raw);
+      const apartment = saved.items?.find(item => item.id === 'i2');
+      if (apartment) {
+        apartment.certifiedIRS = false;
+        apartment.status = 'Ativo (Sem Selo ComoMorar)';
+        if (apartment.description === 'Apartamento completo com teto de renda regulado. Contrato ativado com isenção fiscal e proteção do imóvel contra estragos.') {
+          apartment.description = 'Apartamento completo com teto de renda regulado e proteção do imóvel contra estragos, sem isenção fiscal de IRS.';
+        }
+      }
+      return saved;
+    }
   } catch (e) { console.warn(e); }
   localStorage.setItem(STORAGE_KEY, JSON.stringify(demo));
   return structuredClone(demo);
@@ -250,7 +261,7 @@ function viewExplore() {
       </div>
       <div class="hero-panel">
         <strong>${state.items.length}</strong>
-        <span>imóveis certificados na rede</span>
+        <span>alojamentos publicados</span>
       </div>
     </div>
     <div class="search-panel">
@@ -266,7 +277,7 @@ function viewExplore() {
         ${categories.map(c => `<button class="cat-btn" data-cat="${c.id}"><span>${c.icon}</span><span>${c.id}</span></button>`).join('')}
       </div>
     </div>
-    <div class="section-title"><h2>Alojamentos com Selo ComoMorar Ativo</h2></div>
+    <div class="section-title"><h2>Alojamentos disponíveis</h2></div>
     <div class="item-list" id="itemsList"></div>
   `;
 }
@@ -287,7 +298,9 @@ function renderItemsList() {
         <p>📍 ${i.location} · ${i.distance} km do Campus</p>
         <p class="price">${money(i.price)}</p>
         <div class="status-line">
-          <span class="badge success"><i class="fa-solid fa-shield-halved"></i> Selo ComoMorar (IRS 0%)</span>
+          ${i.certifiedIRS
+            ? '<span class="badge success"><i class="fa-solid fa-shield-halved"></i> Selo ComoMorar (IRS 0%)</span>'
+            : '<span class="badge danger"><i class="fa-solid fa-circle-xmark"></i> Sem Selo ComoMorar</span>'}
           ${i.allowSkillsExchange ? `<span class="badge warn"><i class="fa-solid fa-handshake"></i> Troca de Competências</span>` : ''}
         </div>
       </div>
@@ -315,7 +328,9 @@ function viewDetail() {
         <h2>${i.title}</h2>
         <p>${i.description}</p>
         <div class="status-line" style="margin:1rem 0;">
-          <span class="badge success"><i class="fa-solid fa-shield-halved"></i> Contrato Protegido (IRS 0%)</span>
+          ${i.certifiedIRS
+            ? '<span class="badge success"><i class="fa-solid fa-shield-halved"></i> Contrato Protegido (IRS 0%)</span>'
+            : '<span class="badge danger"><i class="fa-solid fa-circle-xmark"></i> Sem Selo ComoMorar</span>'}
           <span class="badge success"><i class="fa-solid fa-lock"></i> Seguro contra Danos Incluído</span>
         </div>
         <div class="summary-box">
@@ -329,7 +344,7 @@ function viewDetail() {
         <div class="summary-box">
           <div class="summary-row"><span>Renda Mensal Regulada</span><strong>${money(i.price)}</strong></div>
           <div class="summary-row"><span>Garantia de Pagamento</span><strong>Ativa (Dia 1)</strong></div>
-          <div class="summary-row"><span>Benefício Fiscal Senhorio</span><strong>0% IRS / IMI Reduzido</strong></div>
+          <div class="summary-row"><span>Benefício Fiscal Senhorio</span><strong>${i.certifiedIRS ? '0% IRS / IMI Reduzido' : 'Sem benefício de IRS 0%'}</strong></div>
         </div>
         <button class="btn primary full" style="margin-top:1rem;" id="applyBtn">Candidatar com Perfil Verificado da Universidade</button>
         <button class="btn ghost full" style="margin-top:0.5rem;" id="chatBtn">Enviar Mensagem ao Senhorio</button>
@@ -392,7 +407,9 @@ function viewLandlordItems() {
           <h3 style="margin-top:0.75rem;">${i.title}</h3>
           <p class="price">${money(i.price)}</p>
           <div class="status-line">
-            <span class="badge success"><i class="fa-solid fa-check"></i> Selo IRS 0% Ativo</span>
+            ${i.certifiedIRS
+              ? '<span class="badge success"><i class="fa-solid fa-check"></i> Selo IRS 0% Ativo</span>'
+              : '<span class="badge danger"><i class="fa-solid fa-circle-xmark"></i> Sem Selo IRS 0%</span>'}
             <span class="badge success"><i class="fa-solid fa-shield"></i> Seguro Danos Coberto</span>
           </div>
           <button class="btn ghost full" style="margin-top:1rem;" onclick="toast('Garantia Pública de Pagamento Revalidada!')">Consultar Certificado Fiscal</button>
